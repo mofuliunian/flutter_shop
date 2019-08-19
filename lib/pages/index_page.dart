@@ -4,6 +4,8 @@ import 'home_page.dart';
 import 'cart_page.dart';
 import 'category_page.dart';
 import 'member_page.dart';
+// 屏幕适配
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IndexPage extends StatefulWidget {
   @override
@@ -53,6 +55,12 @@ class _IndexPageState extends State<IndexPage> {
 
   @override
   Widget build(BuildContext context) {
+    // 初始化设计尺寸
+    ScreenUtil.instance = ScreenUtil(width: 750.0, height: 1334.0)..init(context);
+
+    // print('设备的像素密度:${ScreenUtil.pixelRatio}');
+    // print('设备的高:${ScreenUtil.screenHeight}');
+    // print('设备的宽:${ScreenUtil.screenWidth}');
     return Scaffold(
       backgroundColor: Color.fromRGBO(244, 245, 245, 1),
       bottomNavigationBar: BottomNavigationBar(
@@ -66,7 +74,11 @@ class _IndexPageState extends State<IndexPage> {
           });
         },
       ),
-      body: currentPage,
+      // IndexedStack 层布局控件用于保持页面状态
+      body: IndexedStack(
+        index: currentIndex,
+        children: tabBodies,
+      ),
     );
   }
 }
