@@ -29,74 +29,75 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('百姓生活+'),
-        ),
-        body: FutureBuilder(
-          // 异步方法
-          future: getHomePageContent(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              var data = json.decode(snapshot.data.toString())['data'];
-              List<Map> swiper = (data['slides'] as List).cast();
-              List<Map> navgatorList = (data['category'] as List).cast();
-              String adPicture = data['advertesPicture']['PICTURE_ADDRESS'];
-              String leaderImage = data['shopInfo']['leaderImage'];
-              String leaderPhone = data['shopInfo']['leaderPhone'];
-              List<Map> recommendList = (data['recommend'] as List).cast();
-              String floor1Title = data['floor1Pic']['PICTURE_ADDRESS'];
-              List<Map> floor1 = (data['floor1'] as List).cast();
-              String floor2Title = data['floor2Pic']['PICTURE_ADDRESS'];
-              List<Map> floor2 = (data['floor2'] as List).cast();
-              String floor3Title = data['floor3Pic']['PICTURE_ADDRESS'];
-              List<Map> floor3 = (data['floor3'] as List).cast();
+      appBar: AppBar(
+        title: Text('百姓生活+'),
+      ),
+      body: FutureBuilder(
+        // 异步方法
+        future: getHomePageContent(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            var data = json.decode(snapshot.data.toString())['data'];
+            List<Map> swiper = (data['slides'] as List).cast();
+            List<Map> navgatorList = (data['category'] as List).cast();
+            String adPicture = data['advertesPicture']['PICTURE_ADDRESS'];
+            String leaderImage = data['shopInfo']['leaderImage'];
+            String leaderPhone = data['shopInfo']['leaderPhone'];
+            List<Map> recommendList = (data['recommend'] as List).cast();
+            String floor1Title = data['floor1Pic']['PICTURE_ADDRESS'];
+            List<Map> floor1 = (data['floor1'] as List).cast();
+            String floor2Title = data['floor2Pic']['PICTURE_ADDRESS'];
+            List<Map> floor2 = (data['floor2'] as List).cast();
+            String floor3Title = data['floor3Pic']['PICTURE_ADDRESS'];
+            List<Map> floor3 = (data['floor3'] as List).cast();
 
-              return SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    SwiperDiy(
-                      swiperList: swiper,
-                    ),
-                    TopNavigator(
-                      navigatorList: navgatorList,
-                    ),
-                    AdBanner(
-                      adPicture: adPicture,
-                    ),
-                    LeaderPhone(
-                      leaderImage: leaderImage,
-                      leaderPhone: leaderPhone,
-                    ),
-                    Recomend(
-                      recommendList: recommendList
-                    ),
-                    FloorTitle(
-                      pictureAddress: floor1Title
-                    ),
-                    FloorContent(
-                      floorGoodsList: floor1
-                    ),
-                    FloorTitle(
-                      pictureAddress: floor2Title
-                    ),
-                    FloorContent(
-                      floorGoodsList: floor2
-                    ),
-                    FloorTitle(
-                      pictureAddress: floor3Title
-                    ),
-                    FloorContent(
-                      floorGoodsList: floor3
-                    ),
-                  ],
-              ));
-            } else {
-              return Center(
-                child: Text('加载中'),
-              );
-            }
-          },
-        ));
+            return SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  SwiperDiy(
+                    swiperList: swiper,
+                  ),
+                  TopNavigator(
+                    navigatorList: navgatorList,
+                  ),
+                  AdBanner(
+                    adPicture: adPicture,
+                  ),
+                  LeaderPhone(
+                    leaderImage: leaderImage,
+                    leaderPhone: leaderPhone,
+                  ),
+                  Recomend(
+                    recommendList: recommendList
+                  ),
+                  FloorTitle(
+                    pictureAddress: floor1Title
+                  ),
+                  FloorContent(
+                    floorGoodsList: floor1
+                  ),
+                  FloorTitle(
+                    pictureAddress: floor2Title
+                  ),
+                  FloorContent(
+                    floorGoodsList: floor2
+                  ),
+                  FloorTitle(
+                    pictureAddress: floor3Title
+                  ),
+                  FloorContent(
+                    floorGoodsList: floor3
+                  ),
+                ],
+            ));
+          } else {
+            return Center(
+              child: Text('加载中'),
+            );
+          }
+        },
+      )
+    );
   }
 }
 
@@ -367,3 +368,5 @@ class FloorContent extends StatelessWidget {
   }
 
 }
+
+
