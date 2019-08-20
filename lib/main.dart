@@ -5,6 +5,7 @@ import 'pages/index_page.dart';
 import 'package:provide/provide.dart';
 import './provide/counter.dart';
 import './provide/child_category.dart';
+import './provide/category_goods_list.dart';
 
 void main() {
   // 调试使用
@@ -12,10 +13,12 @@ void main() {
 
   var counter = Counter();
   var childCategoryList = ChildCategory();
+  var categoryGoodsListProvide = CategoryGoodsListProvide();
   var providers = Providers();
   providers
     ..provide(Provider<Counter>.value(counter))
-    ..provide(Provider<ChildCategory>.value(childCategoryList));
+    ..provide(Provider<ChildCategory>.value(childCategoryList))
+    ..provide(Provider<CategoryGoodsListProvide>.value(categoryGoodsListProvide));
   runApp(ProviderNode(child: MyApp(), providers: providers,));
 }
 
