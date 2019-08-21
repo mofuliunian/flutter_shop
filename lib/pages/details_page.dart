@@ -23,7 +23,21 @@ class DetailsPage extends StatelessWidget {
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: Text('商品详细页'),
+        title: FutureBuilder(
+          future: _getBackInfo(context),
+          builder: (BuildContext context, snapshot) {
+            if (snapshot.hasData) {
+              return Provide<DetailsInfoProvide>(
+                builder: (BuildContext context, child, val) {
+                  return Text(val.goodsInfo.data.goodInfo.goodsName);
+                },
+              );
+            } else {
+              return Text('商品详情');
+            }
+          },
+        )
+        
       ),
       body: FutureBuilder(
         future: _getBackInfo(context),

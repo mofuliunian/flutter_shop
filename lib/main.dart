@@ -8,6 +8,7 @@ import './provide/child_category.dart';
 import './provide/category_goods_list.dart';
 import './provide/details_info.dart';
 import './provide/currentIndex.dart';
+import './provide/cart.dart';
 // 路由管理
 import 'package:fluro/fluro.dart';
 import './routers/routers.dart';
@@ -22,6 +23,7 @@ void main() {
   var categoryGoodsListProvide = CategoryGoodsListProvide();
   var detailsInfoProvide = DetailsInfoProvide();
   var currentIndexProvide = CurrentIndexProvide();
+  var cartProvide = CartProvide();
   var providers = Providers();
     
   providers
@@ -29,6 +31,7 @@ void main() {
     ..provide(Provider<ChildCategory>.value(childCategoryList))
     ..provide(Provider<DetailsInfoProvide>.value(detailsInfoProvide))
     ..provide(Provider<CurrentIndexProvide>.value(currentIndexProvide))
+    ..provide(Provider<CartProvide>.value(cartProvide))
     ..provide(Provider<CategoryGoodsListProvide>.value(categoryGoodsListProvide));
 
 

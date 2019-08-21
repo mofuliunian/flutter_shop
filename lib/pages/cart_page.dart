@@ -1,54 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provide/provide.dart';
-import '../provide/counter.dart';
+import '../provide/cart.dart';
+import './cart_page/cart_item.dart';
+import './cart_page/cart_bottom.dart';
 
 class CartPage extends StatelessWidget {
-  const CartPage({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Number(),
-            MyButton()
-          ],
-        ),
+      appBar: AppBar(
+        title: Text('购物车'),
+      ),
+      body: FutureBuilder(
+        future: _getCardInfo(context),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List cartList = Provide.value<CartProvide>(context).cardList;
+            return Stack(
+              children: <Widget>[
+                ListView.builder(
+                  itemCount: cartList.length,
+                  itemBuilder: (BuildContext context, index) {
+                    return CartItem(cartList[index]);
+                  },
+                  padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(120)),
+                ),
+                Positioned(
+                  child: CartBottom(),
+                  bottom: 0,
+                  left: 0,
+                )
+              ],
+            );
+          } else {
+            return Text('正在加载中');
+          }
+        },
       ),
     );
   }
-}
 
-class Number extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 200),
-      child: Provide<Counter>(
-        builder: (context, child, counter) {
-          return Text(
-            '${counter.value}',
-            style: Theme.of(context).textTheme.display1,
-          );
-        },
-      )
-    );
+  Future<String> _getCardInfo(BuildContext context) async {
+    await Provide.value<CartProvide>(context).getCartInfo();
+    return 'end';
   }
-}
 
-class MyButton extends StatelessWidget {
-  const MyButton({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: RaisedButton(
-        onPressed: () {
-          Provide.value<Counter>(context).increment();
-        },
-        child: Text('递增'),
-      ),
-    );
-  }
 }
