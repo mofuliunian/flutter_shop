@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provide/provide.dart';
 import '../../model/cartInfo.dart';
+import './cart_count.dart';
+import '../../provide/cart.dart';
 
 class CartItem extends StatelessWidget {
   final CartInfoModel item;
@@ -18,20 +21,20 @@ class CartItem extends StatelessWidget {
       ),
       child: Row(
         children: <Widget>[
-          _cartCheckBt(context),
+          _cartCheckBt(context, item),
           _cartImage(context),
           _cartName(context),
-          _cartPrice(context),
+          _cartPrice(context, item),
         ],
       ),
     );
   }
 
   // 复选按钮
-  Widget _cartCheckBt(BuildContext context) {
+  Widget _cartCheckBt(BuildContext context, item) {
     return Container(
       child: Checkbox(
-        value: true,
+        value: item.isCheck,
         activeColor: Colors.pink,
         onChanged: (bool val) {},
       ),
@@ -62,14 +65,18 @@ class CartItem extends StatelessWidget {
             item.goodsName,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-          )
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: CartCount()
+          ) 
         ],
       ),
     );
   }
 
   // 商品价格
-  Widget _cartPrice(BuildContext context) {
+  Widget _cartPrice(BuildContext context, item) {
     return Container(
       width: ScreenUtil().setWidth(150),
       alignment: Alignment.centerRight,
@@ -78,14 +85,16 @@ class CartItem extends StatelessWidget {
           Text('¥${item.price}'),
           Container(
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Provide.value<CartProvide>(context).deleteOneGoods(item.goodsId);
+              },
               child: Icon(
                 Icons.delete_forever,
                 color: Colors.black26,
                 size: 30,
               ),
             ),
-          )
+          ),
         ],
       ),
     );

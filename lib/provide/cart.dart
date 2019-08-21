@@ -28,7 +28,8 @@ class CartProvide with ChangeNotifier {
         'goodsName': goodsName,
         'count': count,
         'price': price,
-        'image': image
+        'image': image,
+        'isCheck': true,
       };
       tempList.add(newGoods);
       cardList.add(CartInfoModel.fromJson(newGoods));
@@ -58,6 +59,27 @@ class CartProvide with ChangeNotifier {
       });
     }
     notifyListeners();
+  }
+
+  // 删除单个购物车商品
+  deleteOneGoods(String goodsId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    cartString = prefs.getString('cartString');
+    List<Map> tempList = (json.decode(cartString.toString()) as List).cast();
+    int tempIndex = 0;
+    int delIndex = 0;
+    tempList.forEach((item) {
+      if (item['goodsId'] == goodsId) {
+        delIndex = tempIndex;
+      }
+      tempIndex++;
+    });
+    tempList.removeAt(delIndex);
+    cartString = json.encode(tempList).toString();
+    prefs.setString('cartString', cartString);
+    await getCartInfo();
+    notifyListeners();
+    
   }
 
 }
