@@ -9,4 +9,6 @@ const servicePath = {
   'getCategory': serviceUrl + 'wxmini/getCategory',
   // 商品分类的列表接口
   'getMallGoods': serviceUrl + 'wxmini/getMallGoods',
+  // 商品详细信息
+  'getGoodDetailById': serviceUrl + 'wxmini/getGoodDetailById'
 };

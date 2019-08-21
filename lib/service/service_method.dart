@@ -48,3 +48,10 @@ Future getMallGoods(formData) async{
   print('开始获取分类商品列表信息');
   return resquest('getMallGoods', formData: formData);
 }
+
+// 获取商品详细信息
+Future getGoodDetailById(formData) async{
+  print('开始获取商品详细信息');
+  return resquest('getGoodDetailById', formData: formData);
+}
+

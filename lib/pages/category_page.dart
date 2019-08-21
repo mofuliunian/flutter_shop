@@ -9,6 +9,9 @@ import '../provide/child_category.dart';
 import '../provide/category_goods_list.dart';
 // 上拉加载下拉刷新插件
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+// 轻提示插件
+import 'package:fluttertoast/fluttertoast.dart';
+import '../routers/application.dart';
 
 class CategoryPage extends StatefulWidget {
   @override
@@ -276,6 +279,16 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
       var data = json.decode(res);
       CategoryGoodsListModel goodsList = CategoryGoodsListModel.fromJson(data);
       if (goodsList.data == null) {
+        Fluttertoast.showToast(
+          msg: '已经到底了',
+          //轻提示大小
+          toastLength: Toast.LENGTH_LONG,
+          // 提示位置
+          gravity: ToastGravity.CENTER,
+          backgroundColor: Colors.pink,
+          textColor: Colors.white,
+          fontSize: 16
+        );
         Provide.value<ChildCategory>(context).changeNoMore('暂无更多数据');
       } else {
         Provide.value<CategoryGoodsListProvide>(context).getMoreList(goodsList.data);
@@ -325,7 +338,8 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
             '¥${index.oriPrice}',
             style: TextStyle(
               color: Colors.black26,
-              decoration: TextDecoration.lineThrough
+              decoration: TextDecoration.lineThrough,
+              fontSize: ScreenUtil().setSp(22)
             ),
           ),
         ],
@@ -336,7 +350,9 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
   // 列表item组合
   Widget _listItemWidget(index) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Application.router.navigateTo(context, '/detail?id=${index.goodsId}');
+      },
       child: Container(
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
