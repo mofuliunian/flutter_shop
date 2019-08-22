@@ -4,6 +4,7 @@ import 'package:provide/provide.dart';
 import '../../model/cartInfo.dart';
 import './cart_count.dart';
 import '../../provide/cart.dart';
+import '../../routers/application.dart';
 
 class CartItem extends StatelessWidget {
   final CartInfoModel item;
@@ -12,20 +13,25 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(5, 2, 5, 2),
-      padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: Colors.black12, width: 1))
-      ),
-      child: Row(
-        children: <Widget>[
-          _cartCheckBt(context, item),
-          _cartImage(context),
-          _cartName(context, item),
-          _cartPrice(context, item),
-        ],
+    return InkWell(
+      onTap: () {
+        Application.router.navigateTo(context, '/detail?id=${item.goodsId}');
+      },
+      child: Container(
+        margin: EdgeInsets.fromLTRB(5, 2, 5, 2),
+        padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(bottom: BorderSide(color: Colors.black12, width: 1))
+        ),
+        child: Row(
+          children: <Widget>[
+            _cartCheckBt(context, item),
+            _cartImage(context),
+            _cartName(context, item),
+            _cartPrice(context, item),
+          ],
+        ),
       ),
     );
   }

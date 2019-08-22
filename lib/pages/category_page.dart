@@ -87,11 +87,9 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
     isClick = index == listIndex ? true : false;
     return InkWell(
       onTap: () {
-        setState(() {
-          listIndex = index;
-        });
         var childList = list[index].bxMallSubDto;
         var categoryId = list[index].mallCategoryId;
+        Provide.value<ChildCategory>(context).changeCategory(categoryId,index);
         Provide.value<ChildCategory>(context).getChildCategory(childList, categoryId);
         _getMallGoods(context, categoryId: categoryId);
       },
