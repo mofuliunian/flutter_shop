@@ -56,23 +56,29 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
   @override
   void initState() {
     _getCategory();
-    _getMallGoods();
+    // _getMallGoods();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: ScreenUtil().setWidth(180),
-      decoration: BoxDecoration(
-        border: Border(right: BorderSide(width: 1, color: Colors.black12))
-      ),
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          return _leftInkWell(index);
-        },
-        itemCount: list.length,
-      ),
+    return Provide<ChildCategory>(
+      builder: (context, child, val) {
+        _getMallGoods(context);
+        listIndex = val.categoryIndex;
+        return Container(
+          width: ScreenUtil().setWidth(180),
+          decoration: BoxDecoration(
+            border: Border(right: BorderSide(width: 1, color: Colors.black12))
+          ),
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              return _leftInkWell(index);
+            },
+            itemCount: list.length,
+          ),
+        );
+      },
     );
   }
 
@@ -87,7 +93,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
         var childList = list[index].bxMallSubDto;
         var categoryId = list[index].mallCategoryId;
         Provide.value<ChildCategory>(context).getChildCategory(childList, categoryId);
-        _getMallGoods(categoryId: categoryId);
+        _getMallGoods(context, categoryId: categoryId);
       },
       child: Container(
         height: ScreenUtil().setHeight(100),
@@ -117,9 +123,9 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
   }
 
   // 获取并切换右侧商品显示
-  void _getMallGoods({String categoryId}) async {
+  void _getMallGoods(context, {String categoryId}) async {
     var data = {
-      'categoryId': categoryId == null ? '4' : categoryId,
+      'categoryId': categoryId == null ? Provide.value<ChildCategory>(context).categoryId : categoryId,
       'categorySubId': "",
       'page': 1
     };

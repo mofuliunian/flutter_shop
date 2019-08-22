@@ -6,6 +6,8 @@ class ChildCategory with ChangeNotifier {
   List<BxMallSubDto> childCategoryList = [];
   // 子类高亮索引
   int childIndex = 0;
+  //大类索引
+  int categoryIndex = 0; 
   // 选中的左侧大类id
   String categoryId = '4';
   // 选中的右侧顶部小类id
@@ -28,6 +30,14 @@ class ChildCategory with ChangeNotifier {
     all.comments = 'null';
     childCategoryList = [all];
     childCategoryList.addAll(list);
+    notifyListeners();
+  }
+
+  // 改变左侧导航
+  changeCategory(String id,int index){
+    categoryId = id;
+    categoryIndex = index;
+    subId = '';
     notifyListeners();
   }
 

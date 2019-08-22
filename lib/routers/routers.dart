@@ -15,6 +15,7 @@ class Routes {
     );
     // 路由配置
     router.define(detailsPage, handler: detailsHandler);
+    router.define(root, handler: rootHandler);
     // router.define(detailsPage, handler: detailsHandler);
 
   }

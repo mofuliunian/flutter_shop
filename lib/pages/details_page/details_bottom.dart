@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provide/provide.dart';
 import '../../provide/cart.dart';
 import '../../provide/details_info.dart';
+import '../../provide/currentIndex.dart';
+// import '../../routers/application.dart';
 
 class DetailsBottom extends StatelessWidget {
   @override
@@ -20,20 +22,50 @@ class DetailsBottom extends StatelessWidget {
       color: Colors.white,
       child: Row(
         children: <Widget>[
-          InkWell(
-            onTap: () {
-              
-            },
-            child: Container(
-              width: ScreenUtil().setWidth(110),
-              height: ScreenUtil().setHeight(80),
-              alignment: Alignment.center,
-              child: Icon(
-                Icons.shopping_cart,
-                size: 36,
-                color: Colors.red,
+          Stack(
+            children: <Widget>[
+              InkWell(
+                onTap: () {
+                  Provide.value<CurrentIndexProvide>(context).changeIndex(2);
+                  // Application.router.navigateTo(context, '/');
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: ScreenUtil().setWidth(110),
+                  height: ScreenUtil().setHeight(80),
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.shopping_cart,
+                    size: 36,
+                    color: Colors.red,
+                  ),
+                ),
               ),
-            ),
+              Provide<CartProvide>(
+                builder: (context, child, val) {
+                  int goodsCount = val.allGoodsCounter;
+                  return Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                      decoration: BoxDecoration(
+                        color: Colors.pink,
+                        border: Border.all(width: 2, color: Colors.white),
+                        borderRadius: BorderRadius.circular(12)
+                      ),
+                      child: Text(
+                        '$goodsCount',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: ScreenUtil().setSp(22)
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
           InkWell(
             onTap: () async {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provide/provide.dart';
 import '../service/service_method.dart';
 // 轮播图
 import "package:flutter_swiper/flutter_swiper.dart";
@@ -11,6 +12,9 @@ import 'package:url_launcher/url_launcher.dart';
 // 上拉加载下拉刷新插件
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import '../routers/application.dart';
+import '../provide/currentIndex.dart';
+import '../provide/child_category.dart';
+import '../model/category.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -222,10 +226,10 @@ class TopNavigator extends StatelessWidget {
 
   TopNavigator({Key key, this.navigatorList}) : super(key: key);
 
-  Widget _gridViewItemUI(BuildContext context, item) {
+  Widget _gridViewItemUI(BuildContext context, item, index) {
     return InkWell(
       onTap: () {
-        print(item);
+        _goCategory(context, index, item['mallCategoryId']);
       },
       child: Column(
         children: <Widget>[
@@ -239,11 +243,23 @@ class TopNavigator extends StatelessWidget {
     );
   }
 
+  void _goCategory(context, int index, String categroyId) async {
+    await getCategory().then((val) {
+      var data = json.decode(val.toString());
+      CategoryModel category = CategoryModel.fromJson(data);
+      List list = category.data;
+      Provide.value<ChildCategory>(context).changeCategory(categroyId, index);
+      Provide.value<ChildCategory>(context).getChildCategory(list[index].bxMallSubDto, categroyId);
+      Provide.value<CurrentIndexProvide>(context).changeIndex(1);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (this.navigatorList.length > 10) {
       this.navigatorList.removeLast();
     }
+    var tempIndex = -1;
     return Container(
       height: ScreenUtil().setHeight(275),
       padding: EdgeInsets.all(9),
@@ -253,7 +269,8 @@ class TopNavigator extends StatelessWidget {
         crossAxisCount: 5,
         padding: EdgeInsets.all(5),
         children: navigatorList.map((item) {
-          return _gridViewItemUI(context, item);
+          tempIndex++;
+          return _gridViewItemUI(context, item, tempIndex);
         }).toList(),
       ),
     );
